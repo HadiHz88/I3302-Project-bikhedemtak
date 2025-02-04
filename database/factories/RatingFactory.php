@@ -2,23 +2,28 @@
 
 namespace Database\Factories;
 
-use App\Models\Rating;
-use App\Models\User;
 use App\Models\ServiceRequest;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Rating>
+ */
 class RatingFactory extends Factory
 {
-    protected $model = Rating::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
             'user_id' => User::factory(),
-            'provider_id' => User::factory(),
+            'rated_by' => User::factory(),
             'service_request_id' => ServiceRequest::factory(),
-            'rating' => $this->faker->numberBetween(1, 5),
-            'review' => $this->faker->sentence(),
+            'rating' => fake()->numberBetween(1, 5),
+            'review' => fake()->sentence(),
         ];
     }
 }

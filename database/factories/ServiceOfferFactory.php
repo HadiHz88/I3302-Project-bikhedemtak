@@ -2,22 +2,27 @@
 
 namespace Database\Factories;
 
-use App\Models\ServiceOffer;
-use App\Models\User;
 use App\Models\ServiceRequest;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServiceOffer>
+ */
 class ServiceOfferFactory extends Factory
 {
-    protected $model = ServiceOffer::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
             'user_id' => User::factory(),
             'service_request_id' => ServiceRequest::factory(),
-            'price' => $this->faker->randomFloat(2, 20, 1000),
-            'status' => $this->faker->randomElement(['pending', 'accepted', 'rejected']),
+            'price' => fake()->randomFloat(2, 20, 1000),
+            'status' => fake()->randomElement(['pending', 'accepted', 'rejected']),
         ];
     }
 }

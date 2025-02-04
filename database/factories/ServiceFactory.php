@@ -2,20 +2,25 @@
 
 namespace Database\Factories;
 
-use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Service>
+ */
 class ServiceFactory extends Factory
 {
-    protected $model = Service::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(3),
-            'description' => $this->faker->paragraph(),
-            'category' => $this->faker->randomElement(['Cleaning', 'Plumbing', 'Tutoring', 'Cooking', 'Haircut']),
-            'price' => $this->faker->randomFloat(2, 10, 500),
+            'name' => fake()->sentence(3),
+            'description' => fake()->paragraph(),
+            'category' => fake()->randomElement(['Cleaning', 'Plumbing', 'Tutoring', 'Cooking', 'Haircut']),
+            'price' => fake()->randomFloat(2, 10, 500),
         ];
     }
 }

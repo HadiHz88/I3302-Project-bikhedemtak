@@ -21,7 +21,7 @@ class RatingController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'provider_id' => 'required|exists:users,id',
+            'rated_by' => 'required|exists:users,id',
             'service_request_id' => 'required|exists:service_requests,id',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
