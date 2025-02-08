@@ -16,7 +16,3 @@
 
 </head>
 <body>
-<x-partials.nav.navbar/>
-{{--<x-partials.nav.temp/>--}}
-</body>
-</html>
