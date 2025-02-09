@@ -2,96 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use App\Models\ServiceRequest;
-use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-/**
- * Controller for handling service requests.
- */
 class ServiceRequestController extends Controller
 {
     /**
-     * Display a listing of the service requests.
-     *
-     * @return \Illuminate\View\View
+     * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $requests = ServiceRequest::latest()->with(['provider', 'tags'])->get()->groupBy('featured');
+
+        return view('requests.index', [
+            'requests' => $requests[0],
+            'featuredRequests' => $requests[1],
+            'tags' => Tag::all(),
+        ]);
     }
 
     /**
-     * Show the form for creating a new service request.
-     *
-     * @return \Illuminate\View\View
+     * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('service-requests.create');
+        return view('requests.create');
     }
 
     /**
-     * Store a newly created service request in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\View\View
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'description' => 'required|string',
-            'status' => 'required|in:pending,accepted,in_progress,completed,canceled',
+        $attributes = $request->validate([
+            'title' => ['required'],
+            'salary' => ['required'],
+            'location' => ['required'],
+            'schedule' => ['required', Rule::in(['Part Time', 'Full Time'])],
+            'tags' => ['nullable'],
         ]);
 
-        $serviceRequest = ServiceRequest::create($validated);
-        return view('service-requests.show', ['serviceRequest' => $serviceRequest]);
-    }
+        $attributes['featured'] = $request->has('featured');
 
-    /**
-     * Display the specified service request.
-     *
-     * @param \App\Models\ServiceRequest $serviceRequest
-     * @return \Illuminate\View\View
-     */
-    public function show(ServiceRequest $serviceRequest)
-    {
-        return view('service-requests.show', ['serviceRequest' => $serviceRequest]);
-    }
+        $requests = Auth::user()->provider->requests()->create(Arr::except($attributes, 'tags'));
 
-    /**
-     * Update the specified service request in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\ServiceRequest $serviceRequest
-     * @return \Illuminate\View\View
-     */
-    public function update(Request $request, ServiceRequest $serviceRequest)
-    {
-        $validated = $request->validate([
-            'status' => 'sometimes|required|in:pending,accepted,in_progress,completed,canceled',
-            'description' => 'nullable|string',
-        ]);
+        if ($attributes['tags'] ?? false) {
+            foreach (explode(',', $attributes['tags']) as $tag) {
+                $request->tag($tag);
+            }
+        }
 
-        $serviceRequest->update($validated);
-        return view('service-requests.show', ['serviceRequest' => $serviceRequest]);
-    }
-
-    /**
-     * Remove the specified service request from storage.
-     *
-     * @param \App\Models\ServiceRequest $serviceRequest
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(ServiceRequest $serviceRequest)
-    {
-        Gate::authorize('delete', $serviceRequest);
-
-        $serviceRequest->delete();
-
-        return redirect('/service-requests');
+        return redirect('/');
     }
 }

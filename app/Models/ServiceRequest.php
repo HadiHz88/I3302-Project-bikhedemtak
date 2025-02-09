@@ -2,36 +2,31 @@
 
 namespace App\Models;
 
-use Database\Factories\ServiceRequestFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+;
 
 class ServiceRequest extends Model
 {
-    /** @use HasFactory<ServiceRequestFactory> */
     use HasFactory;
+    
 
-    protected $fillable = ['user_id', 'service_id', 'description', 'status'];
-
-    public function user(): BelongsTo
+    public function tag(string $name): void
     {
-        return $this->belongsTo(User::class);
+        $tag = Tag::firstOrCreate(['name' => strtolower($name)]);
+
+        $this->tags()->attach($tag);
     }
 
-    public function service(): BelongsTo
+    public function tags(): BelongsToMany
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsToMany(Tag::class);
     }
 
-    public function ratings(): HasMany
+    public function provider(): BelongsTo
     {
-        return $this->hasMany(Rating::class);
-    }
-
-    public function serviceOffers(): HasMany
-    {
-        return $this->hasMany(ServiceOffer::class);
+        return $this->belongsTo(Provider::class);
     }
 }

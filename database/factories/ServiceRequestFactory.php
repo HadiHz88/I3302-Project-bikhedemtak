@@ -2,13 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Service;
-use App\Models\User;
+use App\Models\Employer;
+use App\Models\Provider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServiceRequest>
- */
+
 class ServiceRequestFactory extends Factory
 {
     /**
@@ -19,11 +17,12 @@ class ServiceRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'service_id' => Service::factory(),
-            'title' => fake()->sentence(),
-            'description' => fake()->sentence(),
-            'status' => fake()->randomElement(['pending', 'in_progress', 'completed']),
+            'provider_id' => Provider::factory(),
+            'title' => fake()->jobTitle,
+            'salary' => fake()->randomElement(['$50,000 USD', '$90,000 USD', '$150,000 USD']),
+            'location' => 'Remote',
+            'schedule' => 'Full Time',
+            'featured' => false,
         ];
     }
 }

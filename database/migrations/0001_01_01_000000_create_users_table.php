@@ -17,12 +17,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['service_seeker', 'service_provider'])->default('service_seeker');
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->string('profile_picture')->nullable();
-            $table->text('bio')->nullable();
-            $table->decimal('rating', 3, 2)->default(0); // e.g., 4.5 out of 5
             $table->rememberToken();
             $table->timestamps();
         });
