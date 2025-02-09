@@ -21,6 +21,7 @@ class ServiceRequestFactory extends Factory
         return [
             'user_id' => User::factory(),
             'service_id' => Service::factory(),
+            'title' => fake()->sentence(),
             'description' => fake()->sentence(),
             'status' => fake()->randomElement(['pending', 'in_progress', 'completed']),
         ];
