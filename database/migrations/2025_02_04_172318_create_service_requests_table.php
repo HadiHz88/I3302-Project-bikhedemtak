@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('salary');
             $table->string('location');
             $table->dateTime('schedule');
-            $table->boolean('featured')->default(false);
             $table->timestamps();
         });
     }

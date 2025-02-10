@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Employer;
 use App\Models\Provider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,10 +18,9 @@ class ServiceRequestFactory extends Factory
         return [
             'provider_id' => Provider::factory(),
             'title' => fake()->jobTitle,
-            'salary' => fake()->randomElement(['$50,000 USD', '$90,000 USD', '$150,000 USD']),
-            'location' => 'Remote',
-            'schedule' => 'Full Time',
-            'featured' => false,
+            'salary' => '$' . number_format(fake()->randomFloat(2, 500, 10000), 2),
+            'schedule' => fake()->dateTime()->format('Y-m-d H:i:s'),
+            'location' => fake()->city(),
         ];
     }
 }

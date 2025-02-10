@@ -18,11 +18,13 @@ class RatingFactory extends Factory
      */
     public function definition(): array
     {
+        $ratings = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+
         return [
             'user_id' => User::factory(),
             'rated_by' => User::factory(),
             'service_request_id' => ServiceRequest::factory(),
-            'rating' => fake()->numberBetween(1, 5),
+            'rating' => fake()->randomElement($ratings),
             'review' => fake()->sentence(),
         ];
     }

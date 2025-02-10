@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,9 +14,11 @@ return new class extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            // might be part of a company
-            $table->string('name');
+            $table->string('name'); // might be part of a company
             $table->string('logo');
+            $table->string('phone');
+            $table->string('description');
+            $table->decimal('rating', 2, 1)->default(0);
             $table->timestamps();
         });
     }
