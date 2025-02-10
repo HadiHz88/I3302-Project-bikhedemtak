@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
+            // might be part of a company
             $table->string('name');
             $table->string('logo');
             $table->timestamps();

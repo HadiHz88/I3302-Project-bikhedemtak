@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ServiceRequest;
+use App\Models\Tag;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('service_request_tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\ServiceRequest::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Tag::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(ServiceRequest::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Tag::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->comment('The user who is being rated')->constrained()->cascadeOnDelete()->comment('The user who is being rated');
+            $table->foreignIdFor(User::class)->comment('The user who is being rated')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'rated_by')->comment('The user that did the rating')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(ServiceRequest::class)->constrained()->cascadeOnDelete();
-            $table->integer('rating')->default(0);
+            $table->decimal('rating', 2, 1)->default(0);
             $table->text('review')->nullable();
             $table->timestamps();
         });
