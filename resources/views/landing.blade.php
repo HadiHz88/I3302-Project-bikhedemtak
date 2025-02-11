@@ -73,29 +73,40 @@
             </div>
         </section>
 
-        <!-- Latest Service Requests -->
-        <section class="mb-12">
-            <h3 class="text-2xl font-semibold mb-4">Find The Service You Need</h3>
-            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
-                @foreach ($services as $service)
-                    <div class="bg-white p-4 rounded-lg shadow">
-                        <h4 class="font-bold">{{ $service->name }}</h4>
-                        <p class="text-sm text-gray-600">{{ Str::limit($service->description, 100) }}</p>
-                        <a href="#" class="text-blue-500 hover:underline">View Details</a>
-                    </div>
-                @endforeach
-            </div>
-        </section>
+{{--        <!-- Latest Service Requests -->--}}
+{{--        <section class="mb-12">--}}
+{{--            <h3 class="text-2xl font-semibold mb-4">Find The Service You Need</h3>--}}
+{{--            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">--}}
+{{--                @foreach ($services as $service)--}}
+{{--                    <div class="bg-white p-4 rounded-lg shadow">--}}
+{{--                        <h4 class="font-bold">{{ $service->name }}</h4>--}}
+{{--                        <p class="text-sm text-gray-600">{{ Str::limit($service->description, 100) }}</p>--}}
+{{--                        <a href="#" class="text-blue-500 hover:underline">View Details</a>--}}
+{{--                    </div>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+{{--        </section>--}}
 
         <!-- Quick Tag Selection -->
         <section class="mb-12">
             @php
-                // Calculate tags per row (for 2 rows, divide total by 2)
-                $tagsPerRow = ceil(count($popularTags) / 2);
-                // Split tags into rows
-                $rows = array_chunk($popularTags, $tagsPerRow);
-                // Calculate duration based on tags per row
-                $duration = $tagsPerRow * 2;
+                // Ensure $popularTags is an array and not empty
+                $popularTags = $popularTags ?? [];
+
+                // Convert the Collection to an array
+                $popularTagsArray = $popularTags->toArray();
+
+                if (!empty($popularTagsArray)) {
+                    // Calculate tags per row (for 2 rows, divide total by 2)
+                    $tagsPerRow = ceil(count($popularTagsArray) / 2);
+                    // Split tags into rows
+                    $rows = array_chunk($popularTagsArray, $tagsPerRow);
+                    // Calculate duration based on tags per row
+                    $duration = $tagsPerRow * 2;
+                } else {
+                    $rows = [];
+                    $duration = 0;
+                }
             @endphp
 
             <style>
@@ -188,7 +199,7 @@
                                         href="#"
                                         class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300"
                                     >
-                                        {{ $tag }}
+                                        {{ $tag['name'] }}
                                     </a>
                                 @endforeach
                             </div>
@@ -199,7 +210,7 @@
                                         href="#"
                                         class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300"
                                     >
-                                        {{ $tag }}
+                                        {{ $tag['name'] }}
                                     </a>
                                 @endforeach
                             </div>
@@ -213,7 +224,7 @@
         <section>
             <h3 class="text-2xl font-semibold mb-4">Service Providers Near You</h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                @foreach ($nearbyProviders as $provider)
+                @foreach ($providers as $provider)
                     <div class="bg-white p-4 rounded-lg shadow text-center">
                         <img
                             src="{{ asset('images/logo.jpeg') }}"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Provider;
 use App\Models\ServiceRequest;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -17,21 +18,16 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
-        // $requests = ServiceRequest::latest()->with(['provider', 'tags'])->get()->groupBy('featured');
+        // get 20 tags from the database
+        $popularTags = Tag::limit(20)->get();
 
-        // return view('requests.index', [
-        //     'requests' => $requests[0],
-        //     'featuredRequests' => $requests[1],
-        //     'tags' => Tag::all(),
-        // ]);
-    }
+        // get 4 providers from the database
+        $providers = Provider::limit(4)->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('requests.create');
+        return view('landing', [
+            'popularTags' => $popularTags,
+            'providers' => $providers,
+        ]);
     }
 
     /**
@@ -58,5 +54,13 @@ class ServiceRequestController extends Controller
         }
 
         return redirect('/');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('requests.create');
     }
 }
