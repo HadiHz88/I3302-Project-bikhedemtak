@@ -17,13 +17,13 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
-        $requests = ServiceRequest::latest()->with(['provider', 'tags'])->get()->groupBy('featured');
+        // $requests = ServiceRequest::latest()->with(['provider', 'tags'])->get()->groupBy('featured');
 
-        return view('requests.index', [
-            'requests' => $requests[0],
-            'featuredRequests' => $requests[1],
-            'tags' => Tag::all(),
-        ]);
+        // return view('requests.index', [
+        //     'requests' => $requests[0],
+        //     'featuredRequests' => $requests[1],
+        //     'tags' => Tag::all(),
+        // ]);
     }
 
     /**
