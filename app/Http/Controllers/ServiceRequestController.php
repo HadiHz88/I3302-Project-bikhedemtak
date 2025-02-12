@@ -39,7 +39,7 @@ class ServiceRequestController extends Controller
             'title' => ['required'],
             'salary' => ['required'],
             'location' => ['required'],
-            'schedule' => ['required', Rule::in(['Part Time', 'Full Time'])],
+            'schedule' => ['required'],
             'tags' => ['nullable'],
         ]);
 

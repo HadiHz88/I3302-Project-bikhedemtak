@@ -23,7 +23,8 @@
                             <h3 class="text-xl font-bold text-gray-800 mb-2">Need a Service?</h3>
                             <p class="text-gray-600 mb-4 flex-grow">Post your request and get matched with qualified providers in your area.</p>
                             <div>
-                                <a href="#" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
+                                {{-- i added the url --}}
+                                <a href="{{ url('/jobs/create') }}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
                                     Post a Request
                                 </a>
                             </div>
