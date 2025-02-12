@@ -23,28 +23,25 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate user attributes
         $userAttributes = $request->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(6)],
         ]);
 
-        $providerAttributes = $request->validate([
-            'provider' => ['required'],
-            'logo' => ['required', File::types(['png', 'jpg', 'webp'])],
+        // Create the user
+        $user = User::create([
+            'name' => $userAttributes['name'],
+            'email' => $userAttributes['email'],
+            'password' => bcrypt($userAttributes['password']), // Hash the password
         ]);
 
-        $user = User::create($userAttributes);
-
-        $logoPath = $request->logo->store('logos');
-
-        $user->provider()->create([
-            'name' => $providerAttributes['provider'],
-            'logo' => $logoPath,
-        ]);
-
+        // Log in the user
         Auth::login($user);
 
+        // Redirect to homepage
         return redirect('/');
     }
+
 }

@@ -26,7 +26,7 @@
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <!-- Updated nav-link component styles should be modified to use these colors -->
-                        <x-partials.nav.nav-link href="#" :active="true">Home</x-partials.nav.nav-link>
+                        <x-partials.nav.nav-link href="/" :active="true">Home</x-partials.nav.nav-link>
                         <x-partials.nav.nav-link href="#" :active="false">Test 1</x-partials.nav.nav-link>
                         <x-partials.nav.nav-link href="#" :active="false">Test 2</x-partials.nav.nav-link>
                     </div>
@@ -35,7 +35,7 @@
 
             @auth
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <x-partials.nav.notification-button/>
+                    <x-partials.nav.logout-button/>
 
                     <div class="relative ml-3">
                         <div>
