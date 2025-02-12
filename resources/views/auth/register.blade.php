@@ -8,8 +8,8 @@
 
         <x-forms.divider />
 
-        <x-forms.input label="Employer Name" name="employer" />
-        <x-forms.input label="Employer Logo" name="logo" type="file" />
+        <x-forms.input label="Work Name" name="employer" />
+        <x-forms.input label="Work Logo" name="logo" type="file" />
 
         <x-forms.button>Create Account</x-forms.button>
     </x-forms.form>
