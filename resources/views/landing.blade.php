@@ -50,7 +50,7 @@
                             <p class="text-gray-600 mb-4 flex-grow">Share your skills and start earning by joining our
                                 network.</p>
                             <div>
-                                <a href="#"
+                                <a href="{{ route('providers.create') }}"
                                    class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
                                     Join as Provider
                                 </a>

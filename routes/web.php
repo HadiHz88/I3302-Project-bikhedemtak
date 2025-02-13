@@ -29,3 +29,6 @@ Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('aut
 
 
 Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');
+
+Route::get('/become-provider', [ProviderController::class, 'create'])->name('providers.create');
+Route::post('/become-provider', [ProviderController::class, 'store'])->name('providers.store');
