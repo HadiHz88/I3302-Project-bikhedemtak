@@ -27,5 +27,16 @@ Route::middleware('guest')->group(function () {
 
 Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
-
 Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');
+
+// Profile routes
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [RegisteredUserController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [RegisteredUserController::class, 'update'])->name('profile.update');
+});
+
+
+// about
+Route::get('/about', function () {
+    return view('about');
+});

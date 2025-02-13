@@ -27,8 +27,8 @@
                     <div class="flex space-x-4">
                         <!-- Updated nav-link component styles should be modified to use these colors -->
                         <x-partials.nav.nav-link href="/" :active="true">Home</x-partials.nav.nav-link>
-                        <x-partials.nav.nav-link href="#" :active="false">Test 1</x-partials.nav.nav-link>
-                        <x-partials.nav.nav-link href="#" :active="false">Test 2</x-partials.nav.nav-link>
+                        <x-partials.nav.nav-link href="/about" :active="false">About us</x-partials.nav.nav-link>
+                        <x-partials.nav.nav-link href="/contact" :active="false">Contact us</x-partials.nav.nav-link>
                     </div>
                 </div>
             </div>
@@ -45,15 +45,9 @@
                         <div
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden hidden"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
+                            <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
                                tabindex="-1"
                                id="user-menu-item-0">Your Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
-                               tabindex="-1"
-                               id="user-menu-item-1">Settings</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
-                               tabindex="-1"
-                               id="user-menu-item-2">Sign out</a>
                         </div>
                     </div>
                 </div>
@@ -71,8 +65,8 @@
     <div class="sm:hidden hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pt-2 pb-3">
             <x-partials.nav.mobile-nav-link href="#" :active="true">Home</x-partials.nav.mobile-nav-link>
-            <x-partials.nav.mobile-nav-link href="#" :active="false">Test 1</x-partials.nav.mobile-nav-link>
-            <x-partials.nav.mobile-nav-link href="#" :active="false">Test 2</x-partials.nav.mobile-nav-link>
+            <x-partials.nav.mobile-nav-link href="#" :active="false">About Us</x-partials.nav.mobile-nav-link>
+            <x-partials.nav.mobile-nav-link href="#" :active="false">Contact</x-partials.nav.mobile-nav-link>
         </div>
     </div>
 </nav>

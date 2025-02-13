@@ -17,6 +17,8 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+
         // Get 20 popular tags
         $popularTags = Tag::limit(20)->get();
 
@@ -27,11 +29,12 @@ class ServiceRequestController extends Controller
         $service_requests = ServiceRequest::latest()->with(['provider', 'tags'])->paginate(6);
 
         return view('landing', [
-            'service_requests' => $service_requests,  
+            'service_requests' => $service_requests,
             'featuredRequests' => $service_requests,
             'popularTags'      => $popularTags,
             'providers'        => $providers,
             'tags'             => Tag::all(),
+            'user'             => $user->name ?? 'Guest',
         ]);
     }
 
