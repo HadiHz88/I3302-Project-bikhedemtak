@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
 use App\Models\Provider;
-use App\Models\ServiceRequest;
 use App\Models\Tag;
+use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -18,15 +17,21 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
-        // get 20 tags from the database
+        // Get 20 popular tags
         $popularTags = Tag::limit(20)->get();
 
-        // get 4 providers from the database
-        $providers = Provider::limit(4)->get();
+        // Get 4 providers
+        $providers = Provider::limit(20)->get();
+
+        // Get latest 6 service requests with provider and tags
+        $service_requests = ServiceRequest::latest()->with(['provider', 'tags'])->paginate(6);
 
         return view('landing', [
-            'popularTags' => $popularTags,
-            'providers' => $providers,
+            'service_requests' => $service_requests,  
+            'featuredRequests' => $service_requests,
+            'popularTags'      => $popularTags,
+            'providers'        => $providers,
+            'tags'             => Tag::all(),
         ]);
     }
 
@@ -36,24 +41,30 @@ class ServiceRequestController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'title' => ['required'],
-            'salary' => ['required'],
-            'location' => ['required'],
+            'title'    => ['required', 'string', 'max:255'],
+            'salary'   => ['required', 'numeric'],
+            'location' => ['required', 'string', 'max:255'],
             'schedule' => ['required', Rule::in(['Part Time', 'Full Time'])],
-            'tags' => ['nullable'],
+            'tags'     => ['nullable', 'string'],
         ]);
 
         $attributes['featured'] = $request->has('featured');
 
+        // Ensure the user is a provider
+        if (!Auth::user()->provider) {
+            return redirect()->back()->withErrors(['error' => 'Only providers can create service requests.']);
+        }
+
         $requests = Auth::user()->provider->requests()->create(Arr::except($attributes, 'tags'));
 
         if ($attributes['tags'] ?? false) {
-            foreach (explode(',', $attributes['tags']) as $tag) {
-                $request->tag($tag);
+            foreach (explode(',', $attributes['tags']) as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => trim($tagName)]); // Ensure the tag exists
+                $requests->tags()->attach($tag->id); // Attach the tag to the service request
             }
         }
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Service request created successfully.');
     }
 
     /**

@@ -1,6 +1,7 @@
-<x-partials.head/>
-<x-partials.nav.navbar/>
-{{----}}
-    {{ $slot }}
-{{----}}
-<x-partials.footer/>
+<x-partials.head />
+
+<x-partials.nav.navbar />
+{{ $slot }}
+
+
+<x-partials.footer />
