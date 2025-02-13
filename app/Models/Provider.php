@@ -12,6 +12,15 @@ class Provider extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'logo',
+        'phone',
+        'description',
+        'rating',
+        'user_id',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

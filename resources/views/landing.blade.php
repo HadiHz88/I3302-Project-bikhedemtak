@@ -29,8 +29,11 @@
                             <div>
                                 <a href="#"
                                     class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
-                                    Post a Request
-                                </a>
+                                    {{-- i added the url --}}
+                                    <a href="{{ url('/jobs/create') }}"
+                                        class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
+                                        Post a Request
+                                    </a>
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,8 @@ class ServiceRequest extends Model
 {
     use HasFactory;
     
+    
+ protected $fillable = ['provider_id', 'title', 'salary', 'location', 'schedule'];
 
     public function tag(string $name): void
     {

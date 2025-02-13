@@ -26,32 +26,45 @@
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <!-- Updated nav-link component styles should be modified to use these colors -->
-                        <x-partials.nav.nav-link href="#" :active="true">Home</x-partials.nav.nav-link>
+                        <x-partials.nav.nav-link href="/" :active="true">Home</x-partials.nav.nav-link>
                         <x-partials.nav.nav-link href="#" :active="false">Test 1</x-partials.nav.nav-link>
                         <x-partials.nav.nav-link href="#" :active="false">Test 2</x-partials.nav.nav-link>
                     </div>
                 </div>
             </div>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <x-partials.nav.notification-button/>
 
-                <div class="relative ml-3">
-                    <div>
-                        <x-partials.nav.profile-button
-                            :img-src="asset('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80')"/>
-                    </div>
-                    <div
-                        class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden hidden"
-                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem" tabindex="-1"
-                           id="user-menu-item-0">Your Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem" tabindex="-1"
-                           id="user-menu-item-1">Settings</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem" tabindex="-1"
-                           id="user-menu-item-2">Sign out</a>
+            @auth
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <x-partials.nav.logout-button/>
+
+                    <div class="relative ml-3">
+                        <div>
+                            <x-partials.nav.profile-button
+                                :img-src="asset('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80')"/>
+                        </div>
+                        <div
+                            class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden hidden"
+                            role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
+                               tabindex="-1"
+                               id="user-menu-item-0">Your Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
+                               tabindex="-1"
+                               id="user-menu-item-1">Settings</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" role="menuitem"
+                               tabindex="-1"
+                               id="user-menu-item-2">Sign out</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endauth
+
+            @guest
+                <div class="flex space-x-4">
+                    <x-partials.nav.nav-link href="/login" :active="true">Login</x-partials.nav.nav-link>
+                    <x-partials.nav.nav-link href="/register" :active="false">Register</x-partials.nav.nav-link>
+                </div>
+            @endguest
         </div>
     </div>
 

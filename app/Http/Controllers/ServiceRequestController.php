@@ -41,11 +41,11 @@ class ServiceRequestController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'title'    => ['required', 'string', 'max:255'],
-            'salary'   => ['required', 'numeric'],
-            'location' => ['required', 'string', 'max:255'],
-            'schedule' => ['required', Rule::in(['Part Time', 'Full Time'])],
-            'tags'     => ['nullable', 'string'],
+            'title' => ['required'],
+            'salary' => ['required'],
+            'location' => ['required'],
+            'schedule' => ['required'],
+            'tags' => ['nullable'],
         ]);
 
         $attributes['featured'] = $request->has('featured');
