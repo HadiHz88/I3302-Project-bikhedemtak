@@ -45,6 +45,14 @@ class RegisteredUserController extends Controller
         return redirect('/');
     }
 
+    public function show()
+    {
+        $user = Auth::user();
+        return view('profile.show', [
+            'user' => $user,
+        ]);
+    }
+
     public function edit()
     {
         $user = Auth::user();
@@ -79,7 +87,7 @@ class RegisteredUserController extends Controller
 
         $user->save();
 
-        return redirect('/');
+        return redirect('/profile');
     }
 
 }

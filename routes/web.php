@@ -31,12 +31,41 @@ Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provide
 
 // Profile routes
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [RegisteredUserController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [RegisteredUserController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [RegisteredUserController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [RegisteredUserController::class, 'update'])->name('profile.update');
 });
 
 
+
+
+
+
+
+
+
+
+
+
 // about
 Route::get('/about', function () {
-    return view('about');
+
+    // User count
+    $userCount = App\Models\User::count();
+
+    // Provider count
+    $providerCount = App\Models\Provider::count();
+
+    // Service Request count
+    $serviceRequestCount = App\Models\ServiceRequest::count();
+
+    // Good Rating count (+4 stars)
+    $goodRatingCount = App\Models\Rating::where('rating', '>=', 4)->count();
+
+    return view('about', [
+        'userCount' => $userCount,
+        'providerCount' => $providerCount,
+        'serviceRequestCount' => $serviceRequestCount,
+        'goodRatingCount' => $goodRatingCount,
+    ]);
 });

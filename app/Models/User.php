@@ -45,6 +45,12 @@ class User extends Authenticatable
         ];
     }
 
+    public function getProfilePicAttribute($value)
+    {
+        return $value ?: 'images/default_profile_picture.jpg';
+    }
+
+
     public function provider()
     {
         return $this->hasOne(Provider::class);

@@ -1,6 +1,6 @@
 <x-layout>
     <x-partials.heading>Edit Your Info</x-partials.heading>
-    <x-forms.form method="POST" action="/login">
+    <x-forms.form method="POST" action="/profile">
         @method('PATCH')
         <x-forms.input label="Name" name="name" type="text"/>
         <x-forms.input label="Password" name="password" type="password"/>
