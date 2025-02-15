@@ -26,9 +26,8 @@
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <!-- Updated nav-link component styles should be modified to use these colors -->
-                        <x-partials.nav.nav-link href="/" :active="true">Home</x-partials.nav.nav-link>
-                        <x-partials.nav.nav-link href="/about" :active="false">About us</x-partials.nav.nav-link>
-                        <x-partials.nav.nav-link href="/contact" :active="false">Contact us</x-partials.nav.nav-link>
+                        <x-partials.nav.nav-link href="/" :active="request()->is('/')">Home</x-partials.nav.nav-link>
+                        <x-partials.nav.nav-link href="/about" :active="request()->is('about')">About us</x-partials.nav.nav-link>
                     </div>
                 </div>
             </div>
@@ -66,7 +65,6 @@
         <div class="space-y-1 px-2 pt-2 pb-3">
             <x-partials.nav.mobile-nav-link href="#" :active="true">Home</x-partials.nav.mobile-nav-link>
             <x-partials.nav.mobile-nav-link href="#" :active="false">About Us</x-partials.nav.mobile-nav-link>
-            <x-partials.nav.mobile-nav-link href="#" :active="false">Contact</x-partials.nav.mobile-nav-link>
         </div>
     </div>
 </nav>

@@ -73,13 +73,14 @@
 
         <!-- Search Section -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-6">Find Local Services Near You</h2>
+            <h2 class="text-3xl font-bold text-center mb-6">Up For Some Work?</h2>
             <div class="max-w-2xl mx-auto">
 
                 <!-- Search Form -->
                 <form action="{{ route('search') }}" method="GET" class="flex">
                     <!-- Search Input -->
-                    <input type="text" name="q" placeholder="Search for services or providers..." value="{{ request('q') }}"
+                    <input type="text" name="q" placeholder="Search for services requests..."
+                           value="{{ request('q') }}"
                            class="flex-grow px-4 py-2 rounded-l-lg border-t border-b border-l text-gray-800 border-gray-200 bg-white"/>
 
                     <!-- Submit Button -->
@@ -91,22 +92,6 @@
 
             </div>
         </section>
-
-
-        {{--        <!-- Latest Service Requests -->--}}
-        {{--        <section class="mb-12">--}}
-        {{--            <h3 class="text-2xl font-semibold mb-4">Find The Service You Need</h3>--}}
-        {{--            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">--}}
-        {{--                @foreach ($services as $service)--}}
-        {{--                    <div class="bg-white p-4 rounded-lg shadow">--}}
-        {{--                        <h4 class="font-bold">{{ $service->name }}</h4>--}}
-        {{--                        <p class="text-sm text-gray-600">{{ Str::limit($service->description, 100) }}</p>
-        --}}
-        {{--                        <a href="#" class="text-blue-500 hover:underline">View Details</a>--}}
-        {{--                    </div>--}}
-        {{--                @endforeach--}}
-        {{--            </div>--}}
-        {{--        </section>--}}
 
         <!-- Quick Tag Selection -->
         <section class="mb-12">
@@ -216,7 +201,7 @@
                             <!-- Original content -->
                             <div class="auto-scroll-content">
                                 @foreach ($rowTags as $tag)
-                                    <a href="#"
+                                    <a href="{{ route('search', ['q' => $tag['name']]) }}"
                                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300">
                                         {{ $tag['name'] }}
                                     </a>
@@ -225,7 +210,7 @@
                             <!-- Cloned content for seamless loop -->
                             <div class="auto-scroll-content">
                                 @foreach ($rowTags as $tag)
-                                    <a href="#"
+                                    <a href="{{ route('search', ['q' => $tag['name']]) }}"
                                        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300">
                                         {{ $tag['name'] }}
                                     </a>
