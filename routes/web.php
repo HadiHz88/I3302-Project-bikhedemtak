@@ -8,15 +8,20 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-
+// Home Route
 Route::get('/', [ServiceRequestController::class, 'index']);
 
-Route::get('/jobs/create', [ServiceRequestController::class, 'create'])->middleware('auth');
-Route::post('/jobs', [ServiceRequestController::class, 'store'])->middleware('auth');
+// Service Request Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/service-requests/create', [ServiceRequestController::class, 'create'])->name('service-requests.create');
+    Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('service-requests.store');
+});
 
+// Search and Tag Routes
 Route::get('/search', SearchController::class)->name('search');
 Route::get('/tags/{tag:name}', TagController::class);
 
+// Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -27,36 +32,25 @@ Route::middleware('guest')->group(function () {
 
 Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
+// Provider Routes
 Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');
+Route::middleware('auth')->group(function () {
+    Route::get('/become-provider', [ProviderController::class, 'create'])->name('providers.create');
+    Route::post('/become-provider', [ProviderController::class, 'store'])->name('providers.store');
+});
 
-
-Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');
-
-Route::get('/become-provider', [ProviderController::class, 'create'])->name('providers.create');
-Route::post('/become-provider', [ProviderController::class, 'store'])->name('providers.store');
-
-
-// Profile routes
+// Profile Routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [RegisteredUserController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [RegisteredUserController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [RegisteredUserController::class, 'update'])->name('profile.update');
 });
 
-
-// about
+// About Route
 Route::get('/about', function () {
-
-    // User count
     $userCount = App\Models\User::count();
-
-    // Provider count
     $providerCount = App\Models\Provider::count();
-
-    // Service Request count
     $serviceRequestCount = App\Models\ServiceRequest::count();
-
-    // Good Rating count (+4 stars)
     $goodRatingCount = App\Models\Rating::where('rating', '>=', 4)->count();
 
     return view('about', [

@@ -26,5 +26,6 @@
         <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#" class="hover:underline">Hadi Hijazi, Hanine Khalil, Jana Kassab</a>. All Rights Reserved.</span>
     </div>
 </footer>
+@stack('scripts')
 </body>
 </html>

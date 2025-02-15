@@ -41,48 +41,64 @@ class ServiceRequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $attributes = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'salary' => ['required', 'numeric', 'min:0'],
-            'location' => ['required', 'string'],
-            'schedule' => ['required', 'string'],
-            'tags' => ['nullable', 'string'],
-        ]);
-
-        $attributes['featured'] = $request->has('featured');
-
-        // Ensure the user is a provider
-        if (!Auth::user()->provider) {
-            return redirect()->back()->withErrors(['error' => 'Only providers can create service requests.']);
-        }
-
-        try {
-            // Create the service request
-            $requests = Auth::user()->provider->requests()->create(Arr::except($attributes, 'tags'));
-
-            // Handle tags
-            if (!empty($attributes['tags'])) {
-                $tags = array_filter(array_map('trim', explode(',', $attributes['tags'])));
-                foreach (array_unique($tags) as $tagName) {
-                    $tag = Tag::firstOrCreate(['name' => $tagName]);
-                    $requests->tags()->attach($tag->id);
-                }
-            }
-
-            return redirect('/')->with('success', 'Service request created successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Something went wrong. Please try again.']);
-        }
-    }
-
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('requests.create');
+        // Check if the user is a provider
+        if (!Auth::user()->provider) {
+            return redirect()->route('providers.create')
+                ->with('error', 'You need to register as a provider first to post service requests.');
+        }
+
+        // Get all available tags for the dropdown
+        $tags = Tag::orderBy('name')->get();
+
+        return view('requests.create', compact('tags'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $attributes = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'salary' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
+            'schedule' => ['required', 'date'],
+            'tag_ids' => ['nullable', 'array'],
+            'tag_ids.*' => ['exists:tags,id'],
+        ]);
+
+        // Ensure the user is a provider
+        if (!Auth::user()->provider) {
+            return redirect()->route('providers.create')
+                ->with('error', 'You need to register as a provider first to post service requests.');
+        }
+
+        try {
+            // Create the service request
+            $serviceRequest = Auth::user()->provider->serviceRequests()->create([
+                'title' => $attributes['title'],
+                'salary' => $attributes['salary'],
+                'location' => $attributes['location'],
+                'schedule' => $attributes['schedule'],
+            ]);
+
+            // Attach selected tags if any
+            if (!empty($attributes['tag_ids'])) {
+                $serviceRequest->tags()->attach($attributes['tag_ids']);
+            }
+
+            return redirect('/')
+                ->with('success', 'Service request created successfully.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Something went wrong: ' . $e->getMessage()]);
+        }
     }
 }

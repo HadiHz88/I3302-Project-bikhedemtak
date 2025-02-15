@@ -11,9 +11,19 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+                    @if($errors->any())
+                        <div class="mt-4 bg-red-600 text-white p-4 rounded-lg">
+                            <ul class="list-disc list-inside">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
 
-                <form action="{{ url('/jobs') }}" method="POST" class="space-y-6">
+                <form action="{{ route('service-requests.store') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -25,6 +35,7 @@
                                 id="title"
                                 name="title"
                                 required
+                                value="{{ old('title') }}"
                                 class="w-full px-4 py-2 rounded-lg bg-indigo-700 text-white placeholder-indigo-300 border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                 placeholder="e.g. Tutor Needed"
                             />
@@ -38,6 +49,7 @@
                                 id="salary"
                                 name="salary"
                                 required
+                                value="{{ old('salary') }}"
                                 class="w-full px-4 py-2 rounded-lg bg-indigo-700 text-white placeholder-indigo-300 border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                 placeholder="e.g. $50-$100 per hour"
                             />
@@ -52,46 +64,41 @@
                             id="location"
                             name="location"
                             required
+                            value="{{ old('location') }}"
                             class="w-full px-4 py-2 rounded-lg bg-indigo-700 text-white placeholder-indigo-300 border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                            placeholder="e.g. Beirut,Mount Lebanon,.."
+                            placeholder="e.g. Beirut, Mount Lebanon,..."
                         />
                     </div>
                     <div>
                         <label for="schedule" class="block text-sm font-medium text-indigo-200 mb-1">
-                            Schedule
+                            Schedule Date and Time
                         </label>
-                        <select
+                        <input
+                            type="datetime-local"
                             id="schedule"
                             name="schedule"
                             required
+                            value="{{ old('schedule') }}"
                             class="w-full px-4 py-2 rounded-lg bg-indigo-700 text-white border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        >
-                            <option value="Full Time">Full Time</option>
-                            <option value="Part Time">Part Time</option>
-                        </select>
+                        />
                     </div>
                     <div>
-                        <label for="tags" class="block text-sm font-medium text-indigo-200 mb-1">
-                            Tags (comma-separated)
+                        <label for="tag_ids" class="block text-sm font-medium text-indigo-200 mb-1">
+                            Select Tags
                         </label>
-                        <input
-                            type="text"
-                            id="tags"
-                            name="tags"
-                            class="w-full px-4 py-2 rounded-lg bg-indigo-700 text-white placeholder-indigo-300 border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                            placeholder="e.g. Tutor, Electrician,.."
-                        />
-                    </div>
-                    <div class="flex items-center">
-                        <input
-                            type="checkbox"
-                            id="featured"
-                            name="featured"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-indigo-300 rounded"
-                        />
-                        <label for="featured" class="ml-2 block text-sm text-indigo-200">
-                            Feature this request
-                        </label>
+                        <select
+                            id="tag_ids"
+                            name="tag_ids[]"
+                            multiple
+                            class="select2 w-full px-4 py-2 rounded-lg bg-indigo-700 text-white border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            data-placeholder="Search and select tags..."
+                        >
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tag_ids', [])) ? 'selected' : '' }}>
+                                    {{ $tag->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div>
                         <button
@@ -105,4 +112,44 @@
             </div>
         </section>
     </div>
+
+    @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <style>
+            .select2-container--default .select2-selection--multiple {
+                background-color: #4338ca;
+                border-color: #6366f1;
+            }
+            .select2-container--default .select2-selection--multiple .select2-selection__choice {
+                background-color: #818cf8;
+                border-color: #6366f1;
+            }
+            .select2-dropdown {
+                background-color: #4338ca;
+                border-color: #6366f1;
+            }
+            .select2-search__field {
+                color: white;
+            }
+            .select2-results__option {
+                color: white;
+            }
+            .select2-container--default .select2-results__option--highlighted[aria-selected] {
+                background-color: #6366f1;
+            }
+        </style>
+    @endpush
+
+    @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2({
+                    theme: 'default',
+                    width: '100%'
+                });
+            });
+        </script>
+    @endpush
 </x-layout>
