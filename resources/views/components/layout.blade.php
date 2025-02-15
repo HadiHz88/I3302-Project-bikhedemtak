@@ -2,10 +2,7 @@
 
 <x-partials.nav.navbar />
 
-<main class="p-10">
-
-    <x-partials.heading>{{ \Illuminate\Support\Facades\Auth::check() ? auth()->user()->name : 'Guest' }}</x-partials.heading>
-
+<main class="flex-1 p-10">
     {{ $slot }}
 </main>
 

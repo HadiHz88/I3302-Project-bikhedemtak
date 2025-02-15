@@ -16,4 +16,4 @@
 
     @stack('styles')
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 h-full flex flex-col">

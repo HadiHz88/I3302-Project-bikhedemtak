@@ -1,6 +1,6 @@
 <x-layout>
+    <x-partials.heading>{{ \Illuminate\Support\Facades\Auth::check() ? auth()->user()->name : 'Guest' }}</x-partials.heading>
     <div class="container mx-auto px-4 py-8">
-
         {{--        Get Started --}}
         <section class="my-16 max-w-4xl mx-auto">
             <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white shadow-xl">
@@ -222,7 +222,7 @@
             </div>
         </section>
 
-        <section class="pt-10">
+        <section class="mb-12 pt-10">
             <h3 class="text-2xl font-semibold mb-4">Featured Service Requests</h3>
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
                 @foreach($featuredRequests as $service_request)
@@ -231,7 +231,7 @@
             </div>
         </section>
 
-        <section>
+        <section class="mb-12">
             <h3 class="text-2xl font-semibold mb-4">Recent Service Requests</h3>
             <div class="mt-6 space-y-6">
                 @foreach($service_requests as $service_request)
@@ -242,7 +242,7 @@
 
 
         <!-- Near-Me Profiles Showcase -->
-        <section>
+        <section class="mb-12">
             <h3 class="text-2xl font-semibold mb-4">Service Providers Near You</h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach ($providers as $provider)

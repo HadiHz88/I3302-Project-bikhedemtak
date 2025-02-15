@@ -1,5 +1,4 @@
 <x-layout>
-    <x-partials.heading>Register</x-partials.heading>
     <x-forms.form method="POST" action="/register" enctype="multipart/form-data">
         <x-forms.input label="Name" name="name" />
         <x-forms.input label="Email" name="email" type="email" />

@@ -1,5 +1,4 @@
 <x-layout>
-    <x-partials.heading>Log In</x-partials.heading>
     <x-forms.form method="POST" action="/login">
         <x-forms.input label="Email" name="email" type="email" />
         <x-forms.input label="Password" name="password" type="password" />
