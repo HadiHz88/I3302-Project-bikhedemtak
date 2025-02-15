@@ -6,7 +6,6 @@ use App\Models\Provider;
 use App\Models\Tag;
 use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -25,8 +24,10 @@ class ServiceRequestController extends Controller
         // Get 4 providers
         $providers = Provider::limit(20)->get();
 
-        // Get latest 6 service requests with provider and tags
-        $service_requests = ServiceRequest::latest()->with(['provider', 'tags'])->paginate(6);
+        // Get latest 6 service requests with user and tags
+        $service_requests = ServiceRequest::latest()
+            ->with(['user', 'tags']) // Eager load the user and tags relationships
+            ->paginate(6);
 
         return view('landing', [
             'service_requests' => $service_requests,
@@ -39,17 +40,14 @@ class ServiceRequestController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        // Check if the user is a provider
-        if (!Auth::user()->provider) {
-            return redirect()->route('providers.create')
-                ->with('error', 'You need to register as a provider first to post service requests.');
+        // Check if the user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'You need to log in to post service requests.');
         }
 
         // Get all available tags for the dropdown
@@ -72,15 +70,15 @@ class ServiceRequestController extends Controller
             'tag_ids.*' => ['exists:tags,id'],
         ]);
 
-        // Ensure the user is a provider
-        if (!Auth::user()->provider) {
-            return redirect()->route('providers.create')
-                ->with('error', 'You need to register as a provider first to post service requests.');
+        // Ensure the user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'You need to log in to post service requests.');
         }
 
         try {
-            // Create the service request
-            $serviceRequest = Auth::user()->provider->serviceRequests()->create([
+            // Create the service request and associate it with the authenticated user
+            $serviceRequest = Auth::user()->serviceRequests()->create([
                 'title' => $attributes['title'],
                 'salary' => $attributes['salary'],
                 'location' => $attributes['location'],

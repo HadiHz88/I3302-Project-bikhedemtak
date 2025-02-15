@@ -26,8 +26,4 @@ class Provider extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function serviceRequests()
-    {
-        return $this->hasMany(ServiceRequest::class);
-    }
 }

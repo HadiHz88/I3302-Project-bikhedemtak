@@ -1,8 +1,6 @@
 @props(['service_request'])
-
-
 <x-panel class="flex flex-col text-center ">
-    <div class="self-start text-sm">{{ $service_request->provider->name  }}</div>
+    <div class="self-start text-sm">{{ $service_request->user->name  }}</div>
 
     <div class="py-8">
         <h3 class="group-hover:text-blue-800 text-xl font-bold transition-colors duration-300">
@@ -14,11 +12,16 @@
     <div class="flex justify-between items-center mt-auto">
         <div>
             @foreach($service_request->tags as $tag)
-            <x-tag :tag="$tag" size="small" />
+                <x-tag :tag="$tag" size="small"/>
             @endforeach
 
         </div>
 
-        <x-provider-logo :provider="$service_request->provider" :width="42" />
+        <img
+            src="{{ Str::startsWith($service_request->user->profile_pic, 'http') ? $service_request->user->profile_pic : asset('storage/' . $service_request->user->profile_pic) }}"
+            alt="User Profile Pic"
+            class="rounded-xl"
+            width="48"
+        >
     </div>
 </x-panel>
