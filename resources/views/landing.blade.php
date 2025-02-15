@@ -27,7 +27,6 @@
                             <p class="text-gray-600 mb-4 flex-grow">Post your request and get matched with qualified
                                 providers in your area.</p>
                             <div>
-                                {{-- i added the url --}}
                                 <a href="{{ route('service-requests.create') }}"
                                    class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
                                     Post a Request
@@ -36,7 +35,14 @@
                         </div>
                     </div>
 
-                    <div class="w-full sm:w-1/2 max-w-xs">
+                    <?php
+                    $showBecomeAProvider = true;
+                    if (auth()->check() && auth()->user()->provider) {
+                        $showBecomeAProvider = false;
+                    }
+                    ?>
+
+                    <div class="w-full sm:w-1/2 max-w-xs {{ $showBecomeAProvider ? '' : 'hidden' }}">
                         <div class="bg-white rounded-xl p-6 text-center h-full flex flex-col">
                             <div class="mb-4">
                                 <svg class="w-12 h-12 mx-auto text-blue-600" fill="none" stroke="currentColor"
@@ -47,7 +53,9 @@
                                 </svg>
                             </div>
                             <h3 class="text-xl font-bold text-gray-800 mb-2">Become a Provider</h3>
-                            <p class="text-gray-600 mb-4 flex-grow">Share your skills and start earning by joining our
+                            <p class="text-gray-600 mb-4 flex-grow">Share your skills and start earning by
+                                joining
+                                our
                                 network.</p>
                             <div>
                                 <a href="{{ route('providers.create') }}"
@@ -57,6 +65,8 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </section>
@@ -104,15 +114,15 @@
                 $popularTagsArray = $popularTags->toArray();
 
                 if (!empty($popularTagsArray)) {
-                    // Calculate tags per row (for 2 rows, divide total by 2)
-                    $tagsPerRow = ceil(count($popularTagsArray) / 2);
-                    // Split tags into rows
-                    $rows = array_chunk($popularTagsArray, $tagsPerRow);
-                    // Calculate duration based on tags per row
-                    $duration = $tagsPerRow * 2;
+                   // Calculate tags per row (for 2 rows, divide total by 2)
+                   $tagsPerRow = ceil(count($popularTagsArray) / 2);
+                   // Split tags into rows
+                   $rows = array_chunk($popularTagsArray, $tagsPerRow);
+                   // Calculate duration based on tags per row
+                   $duration = $tagsPerRow * 2;
                 } else {
-                    $rows = [];
-                    $duration = 0;
+                   $rows = [];
+                   $duration = 0;
                 }
             @endphp
 
