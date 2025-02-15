@@ -21,14 +21,14 @@ class Provider extends Model
         'user_id',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function getLogoAttribute($value)
     {
         return $value ? asset('storage/' . $value) : asset('images/default_provider_logo.jpg');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function ratings(): HasMany
@@ -36,13 +36,5 @@ class Provider extends Model
         return $this->hasMany(Rating::class);
     }
 
-    /**
-     * Update the provider's average rating
-     */
-    public function updateAverageRating(): void
-    {
-        $avgRating = $this->ratings()->avg('rating') ?? 0;
-        $this->rating = round($avgRating, 1);
-        $this->save();
-    }
+
 }

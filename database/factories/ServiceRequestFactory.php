@@ -16,9 +16,9 @@ class ServiceRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'provider_id' => User::factory(),
+            'user_id' => User::factory(),
             'title' => fake()->jobTitle,
-            'salary' => '$' . number_format(fake()->randomFloat(2, 500, 10000), 2),
+            'salary' => '$' . fake()->numberBetween(10, 1000),
             'schedule' => fake()->dateTime()->format('Y-m-d H:i:s'),
             'location' => fake()->city(),
         ];

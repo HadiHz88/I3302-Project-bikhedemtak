@@ -18,7 +18,7 @@ class SearchController extends Controller
 
         // Perform the search
         $requests = ServiceRequest::query()
-            ->with(['provider', 'tags'])
+            ->with(['user', 'tags'])
             ->where('title', 'LIKE', "%$query%")
             ->orWhereHas('tags', function ($q) use ($query) {
                 $q->where('name', 'LIKE', "%$query%");

@@ -18,11 +18,9 @@ class ProviderFactory extends Factory
 
         return [
             'name' => fake()->company(),
-            'logo' => fake()->imageUrl(),
             'user_id' => User::factory(),
             'phone' => fake()->phoneNumber(),
             'description'=> fake()->sentence(),
-            'rating' => fake()->randomElement($ratings),
         ];
     }
 }

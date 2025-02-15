@@ -29,17 +29,19 @@ class Rating extends Model
         return $this->belongsTo(User::class, 'rated_by');
     }
 
-
-    protected static function booted()
+    /**
+     * Get the average rating
+     *
+     * @return float
+     */
+    public function getAverageRatingAttribute(): float
     {
-        // Update the provider's average rating after a rating is saved
-        static::saved(function ($rating) {
-            $rating->provider->updateAverageRating();
-        });
+        if ($this->ratings->isEmpty()) {
+            return 0.0;
+        }
 
-        // Update the provider's average rating after a rating is deleted
-        static::deleted(function ($rating) {
-            $rating->provider->updateAverageRating();
-        });
+        return round($this->ratings->avg('rating'), 1);
     }
+
+
 }

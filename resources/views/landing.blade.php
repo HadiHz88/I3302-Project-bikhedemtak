@@ -78,13 +78,17 @@
 
                 <!-- Search Form -->
                 <form action="{{ route('search') }}" method="GET" class="flex">
-                    <input type="text" name="q" placeholder="Search for services..."
+                    <!-- Search Input -->
+                    <input type="text" name="q" placeholder="Search for services or providers..." value="{{ request('q') }}"
                            class="flex-grow px-4 py-2 rounded-l-lg border-t border-b border-l text-gray-800 border-gray-200 bg-white"/>
+
+                    <!-- Submit Button -->
                     <button type="submit"
                             class="px-4 py-2 rounded-r-lg bg-blue-500 text-white font-bold hover:bg-blue-600 focus:outline-none focus:shadow-outline">
                         Search
                     </button>
                 </form>
+
             </div>
         </section>
 

@@ -51,34 +51,35 @@ class ProviderController extends Controller
 
     public function rate(Request $request, Provider $provider)
     {
-        $validated = $request->validate([
-            'rating' => 'required|numeric|min:0.5|max:5',
-            'review' => 'nullable|string|max:1000',
+        $request->validate([
+            'rating' => 'required|numeric|between:1,5',
+            'review' => 'nullable|string|max:500',
         ]);
 
-        // Check if user has already rated this provider
-        $existingRating = Rating::where('provider_id', $provider->id)
-            ->where('rated_by', auth()->id())
-            ->first();
+        // Create a new rating
+        $rating = new Rating([
+            'rating' => $request->rating,
+            'review' => $request->review,
+            'rated_by' => auth()->id(),
+        ]);
 
-        if ($existingRating) {
-            // Update existing rating
-            $existingRating->update([
-                'rating' => $validated['rating'],
-                'review' => $validated['review'],
-            ]);
-        } else {
-            // Create new rating
-            Rating::create([
-                'provider_id' => $provider->id,
-                'rated_by' => auth()->id(),
-                'rating' => $validated['rating'],
-                'review' => $validated['review'],
-            ]);
-        }
+        // Save the rating
+        $provider->ratings()->save($rating);
 
-        // The provider's average rating will be updated automatically by the Rating model's event handlers
+        // Update the provider's rating field
+        $this->updateProviderRating($provider);
 
-        return back()->with('success', 'Your rating has been submitted!');
+        return redirect()->back()->with('success', 'Thank you for your review!');
     }
+
+    protected function updateProviderRating(Provider $provider)
+    {
+        // Calculate the average rating for this provider
+        $averageRating = $provider->ratings()->avg('rating');
+
+        // Update the provider's rating field
+        $provider->rating = $averageRating;
+        $provider->save();
+    }
+
 }
