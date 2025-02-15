@@ -21,8 +21,8 @@ class ServiceRequestController extends Controller
         // Get 20 popular tags
         $popularTags = Tag::limit(20)->get();
 
-        // Get 4 providers
-        $providers = Provider::limit(20)->get();
+        // Get 8 providers
+        $providers = Provider::limit(8)->get();
 
         // Get latest 6 service requests with user and tags
         $service_requests = ServiceRequest::latest()
