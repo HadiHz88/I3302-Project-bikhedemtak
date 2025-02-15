@@ -44,11 +44,11 @@ class ServiceRequestController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'title' => ['required'],
-            'salary' => ['required'],
-            'location' => ['required'],
-            'schedule' => ['required'],
-            'tags' => ['nullable'],
+            'title' => ['required', 'string', 'max:255'],
+            'salary' => ['required', 'numeric', 'min:0'],
+            'location' => ['required', 'string'],
+            'schedule' => ['required', 'string'],
+            'tags' => ['nullable', 'string'],
         ]);
 
         $attributes['featured'] = $request->has('featured');
@@ -58,17 +58,25 @@ class ServiceRequestController extends Controller
             return redirect()->back()->withErrors(['error' => 'Only providers can create service requests.']);
         }
 
-        $requests = Auth::user()->provider->requests()->create(Arr::except($attributes, 'tags'));
+        try {
+            // Create the service request
+            $requests = Auth::user()->provider->requests()->create(Arr::except($attributes, 'tags'));
 
-        if ($attributes['tags'] ?? false) {
-            foreach (explode(',', $attributes['tags']) as $tagName) {
-                $tag = Tag::firstOrCreate(['name' => trim($tagName)]); // Ensure the tag exists
-                $requests->tags()->attach($tag->id); // Attach the tag to the service request
+            // Handle tags
+            if (!empty($attributes['tags'])) {
+                $tags = array_filter(array_map('trim', explode(',', $attributes['tags'])));
+                foreach (array_unique($tags) as $tagName) {
+                    $tag = Tag::firstOrCreate(['name' => $tagName]);
+                    $requests->tags()->attach($tag->id);
+                }
             }
-        }
 
-        return redirect('/')->with('success', 'Service request created successfully.');
+            return redirect('/')->with('success', 'Service request created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Something went wrong. Please try again.']);
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -248,7 +248,7 @@
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach ($providers as $provider)
                     <div class="bg-white p-4 rounded-lg shadow text-center">
-                        <img src="{{ asset('images/logo.jpeg') }}" alt="{{ $provider->name }}"
+                        <img src="{{ asset('storage/' . $provider->logo) }}" alt="{{ $provider->name }}"
                              class="w-24 h-24 rounded-full mx-auto mb-2"/>
                         <h4 class="font-bold">{{ $provider->name }}</h4>
                         <a href="#"

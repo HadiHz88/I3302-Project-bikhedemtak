@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function getProfilePicAttribute($value)
     {
-        return $value ?: 'images/default_profile_picture.jpg';
+        return $value ? asset('storage/' . $value) : asset('images/default_profile_picture.jpg');
     }
 
 

@@ -21,11 +21,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
-    Route::get('/login', [SessionController::class, 'create']);
-    Route::post('/login', [SessionController::class, 'store']);
+    Route::get('/login', [SessionController::class, 'create'])->name('login');
+    Route::post('/login', [SessionController::class, 'store'])->name('login.store');
 });
 
-Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
+Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');
 
@@ -34,7 +34,6 @@ Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provide
 
 Route::get('/become-provider', [ProviderController::class, 'create'])->name('providers.create');
 Route::post('/become-provider', [ProviderController::class, 'store'])->name('providers.store');
-
 
 
 // Profile routes

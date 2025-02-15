@@ -61,33 +61,34 @@ class RegisteredUserController extends Controller
 
     public function update(Request $request)
     {
-
         $user = Auth::user();
 
+        // Validate input
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'confirmed', Password::min(6)],
-            'profile_pic' => ['nullable', 'image', 'max:1024'],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::min(6)],
+            'profile_pic' => ['nullable', 'image', 'max:1024'], // Ensure profile picture is optional
         ]);
 
+        // Update user details
         $user->name = $request->name;
         $user->password = bcrypt($request->password);
 
         // Handle profile picture upload
         if ($request->hasFile('profile_pic')) {
             // Delete the old profile picture if it exists
-            if ($user->profile_pic) {
-                Storage::delete('public/' . $user->profile_pic);
+            if ($user->profile_pic && Storage::disk('public')->exists($user->profile_pic)) {
+                Storage::disk('public')->delete($user->profile_pic);
             }
 
-            // Store the new profile picture
+            // Store the new profile picture in 'profile-pictures' directory on the 'public' disk
             $path = $request->file('profile_pic')->store('profile-pictures', 'public');
-            $user->profile_picture = $path;
+            $user->profile_pic = $path; // Store the path in the `profile_pic` column
         }
 
         $user->save();
 
-        return redirect('/profile');
+        return redirect('/profile')->with('success', 'Profile updated successfully!');
     }
 
 }
