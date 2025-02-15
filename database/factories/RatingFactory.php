@@ -23,7 +23,6 @@ class RatingFactory extends Factory
         return [
             'user_id' => User::factory(),
             'rated_by' => User::factory(),
-            'service_request_id' => ServiceRequest::factory(),
             'rating' => fake()->randomElement($ratings),
             'review' => fake()->sentence(),
         ];

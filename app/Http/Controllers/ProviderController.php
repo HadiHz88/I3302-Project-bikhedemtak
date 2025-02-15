@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rating;
 use Illuminate\Http\Request;
-
 
 use App\Models\Provider;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,6 @@ class ProviderController extends Controller
     {
         $attributes = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['required', 'image', 'max:2048'], // Validates that this is an image file
             'phone' => ['required', 'string', 'max:15'],
             'description' => ['required', 'string'],
             'terms' => ['required'], // Validates that the terms checkbox was checked
@@ -48,5 +47,38 @@ class ProviderController extends Controller
     public function create()
     {
         return view('become-provider');
+    }
+
+    public function rate(Request $request, Provider $provider)
+    {
+        $validated = $request->validate([
+            'rating' => 'required|numeric|min:0.5|max:5',
+            'review' => 'nullable|string|max:1000',
+        ]);
+
+        // Check if user has already rated this provider
+        $existingRating = Rating::where('provider_id', $provider->id)
+            ->where('rated_by', auth()->id())
+            ->first();
+
+        if ($existingRating) {
+            // Update existing rating
+            $existingRating->update([
+                'rating' => $validated['rating'],
+                'review' => $validated['review'],
+            ]);
+        } else {
+            // Create new rating
+            Rating::create([
+                'provider_id' => $provider->id,
+                'rated_by' => auth()->id(),
+                'rating' => $validated['rating'],
+                'review' => $validated['review'],
+            ]);
+        }
+
+        // The provider's average rating will be updated automatically by the Rating model's event handlers
+
+        return back()->with('success', 'Your rating has been submitted!');
     }
 }

@@ -72,6 +72,11 @@ class User extends Authenticatable
         return $this->hasMany(ServiceRequest::class);
     }
 
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

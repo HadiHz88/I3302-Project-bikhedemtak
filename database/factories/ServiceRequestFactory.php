@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Provider;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 
@@ -16,7 +16,7 @@ class ServiceRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'provider_id' => Provider::factory(),
+            'provider_id' => User::factory(),
             'title' => fake()->jobTitle,
             'salary' => '$' . number_format(fake()->randomFloat(2, 500, 10000), 2),
             'schedule' => fake()->dateTime()->format('Y-m-d H:i:s'),

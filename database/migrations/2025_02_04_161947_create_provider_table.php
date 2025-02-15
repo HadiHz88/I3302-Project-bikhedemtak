@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('name'); // might be part of a company
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->string('phone');
             $table->string('description');
             $table->decimal('rating', 2, 1)->default(0);

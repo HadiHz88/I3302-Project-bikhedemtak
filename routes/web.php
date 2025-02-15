@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [RegisteredUserController::class, 'update'])->name('profile.update');
 });
 
+Route::post('/provider/{provider}/rate', [ProviderController::class, 'rate'])->name('provider.rate')->middleware('auth');
+
 // About Route
 Route::get('/about', function () {
     $userCount = App\Models\User::count();

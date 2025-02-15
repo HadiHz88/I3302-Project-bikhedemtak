@@ -33,7 +33,6 @@
                             type="file"
                             id="logo"
                             name="logo"
-                            required
                             class="w-full px-4 py-2 rounded-lg bg-indigo-700 text-white border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         />
                     </div>
