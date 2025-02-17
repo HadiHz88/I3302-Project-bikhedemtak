@@ -26,11 +26,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
-    Route::get('/login', [SessionController::class, 'create'])->name('login');
-    Route::post('/login', [SessionController::class, 'store'])->name('login.store');
+    Route::get('/login', [SessionController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [SessionController::class, 'login'])->name('login.store');
 });
 
-Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::delete('/logout', [SessionController::class, 'logout'])->middleware('auth')->name('logout');
 
 // Provider Routes
 Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');

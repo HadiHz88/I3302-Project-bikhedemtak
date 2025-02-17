@@ -2,9 +2,9 @@
 
 <a href="{{ $href }}"
     @class([
-        'block rounded-md px-3 py-2 text-base font-medium',
-        'bg-blue-950 text-white' => $active,
-        'text-gray-300 hover:bg-blue-700 hover:text-white' => !$active
+        'block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200',
+        'bg-blue-700 text-white' => $active,
+        'text-blue-100 hover:bg-blue-700 hover:text-white' => !$active
     ])
     {{ $attributes }}>
     {{ $slot }}
