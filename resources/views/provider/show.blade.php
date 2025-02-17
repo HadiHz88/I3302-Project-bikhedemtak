@@ -247,12 +247,6 @@
                         }
                     });
                 }
-
-                star.addEventListener('mouseenter', () => {
-                    if (!currentRating) {
-                        updateStars(fullValue);
-                    }
-                });
             });
 
             // Reset on mouse leave if no rating selected
