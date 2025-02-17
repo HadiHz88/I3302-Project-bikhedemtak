@@ -1,4 +1,4 @@
-<footer class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg mt-96">
+<footer class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg mt-16">
     <div class="w-full max-w-screen-xl mx-auto p-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Logo and Branding -->

@@ -14,7 +14,7 @@
         <p class="mt-2 text-sm text-gray-600">{{ $service_request->salary }}</p>
         <div class="mt-4 flex flex-wrap gap-2">
             @foreach($service_request->tags as $tag)
-                <x-tag :tag="$tag"/>
+                <x-tag :tag="$tag" size="small"/>
             @endforeach
         </div>
     </div>

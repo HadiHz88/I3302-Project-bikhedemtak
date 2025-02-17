@@ -1,18 +1,19 @@
-<div class="relative overflow-hidden bg-gradient-to-r from-blue-900 to-blue-400 py-8 rounded-lg shadow-lg">
-
-    <h1 class="text-6xl font-bold text-white text-center mb-10">
+<div class="relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-800 py-12 rounded-lg shadow-lg">
+    <!-- Main Heading -->
+    <h1 class="text-6xl font-bold text-white text-center mb-8">
         Hello {{ $slot }}
     </h1>
 
     <!-- Animated Text -->
-    <div class="whitespace-nowrap animate-slide">
-        <h1 class="text-4xl font-bold text-white inline-block">
-            Ready to start working today? Or do you need some services? 🚀
-        </h1>
-
-        <h1 class="text-4xl font-bold text-white inline-block">
-            Ready to start working today? Or do you need some services? 🚀
-        </h1>
+    <div class="whitespace-nowrap overflow-hidden">
+        <div class="animate-slide">
+            <h1 class="text-4xl font-bold text-white inline-block">
+                Ready to start working today? Or do you need some services? 🚀
+            </h1>
+            <h1 class="text-4xl font-bold text-white inline-block ml-8">
+                Ready to start working today? Or do you need some services? 🚀
+            </h1>
+        </div>
     </div>
 </div>
 
@@ -30,6 +31,19 @@
     /* Apply the animation to the text */
     .animate-slide {
         display: inline-block;
-        animation: slide 15s linear infinite;
+        white-space: nowrap;
+        animation: slide 10s linear infinite;
+    }
+
+    /* Add a smooth gradient overlay for a polished look */
+    .relative::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.2));
+        pointer-events: none;
     }
 </style>
