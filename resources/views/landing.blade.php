@@ -242,49 +242,14 @@
 
 
         <!-- Near-Me Profiles Showcase -->
-        <section class="mb-12">
-            <h3 class="text-2xl font-semibold mb-4">Service Providers Near You</h3>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                @foreach ($providers as $provider)
-                    <div class="m-10 max-w-sm">
-                        <div class="rounded-lg border bg-white px-4 pt-8 pb-10 shadow-lg">
-                            <div class="relative mx-auto w-36 rounded-full">
-                                <img class="mx-auto h-auto w-full rounded-full" src="{{ $provider->logo }}"
-                                     alt="provider logo"/>
-                            </div>
-                            <h1 class="my-1 text-center text-xl font-bold leading-8 text-gray-900">{{$provider->name}}</h1>
-                            <h3 class="font-lg text-semibold text-center leading-6 text-gray-600">{{$provider->user->name}}</h3>
-                            <p class="text-center text-sm leading-6 text-gray-500 hover:text-gray-600">{{$provider->description}}</p>
-                            <ul class="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
-                                <li class="flex items-center py-3 text-sm">
-                                    <span>Rating</span>
-                                        <?php
-                                        $rating = $provider->rating;
-                                        $color = '';
-                                        if ($rating > 4) {
-                                            $color = 'bg-green-200 text-green-700';
-                                        } elseif ($rating > 3) {
-                                            $color = 'bg-yellow-200 text-yellow-700';
-                                        } elseif ($rating > 2) {
-                                            $color = 'bg-blue-200 text-blue-700';
-                                        } elseif ($rating > 1) {
-                                            $color = 'bg-red-200 text-red-700';
-                                        } else {
-                                            $color = 'bg-gray-200 text-gray-700';
-                                        }
-                                        ?>
-                                    <span class="ml-auto"><span
-                                            class="rounded-full py-1 px-2 text-xs font-medium {{$color}}">{{$rating}}</span></span>
-                                </li>
-                                <li class="flex items-center py-3 text-sm">
-                                    <span>See More</span>
-                                    <span class="ml-auto text-blue-500"><a href="/provider/{{$provider->id}}}">click here!</a> </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                @endforeach
+        <section class="bg-white py-12">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Service Providers Near You</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach ($providers as $provider)
+                        <x-provider-card :provider="$provider" />
+                    @endforeach
+                </div>
             </div>
         </section>
     </div>

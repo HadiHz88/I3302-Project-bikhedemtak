@@ -1,27 +1,21 @@
 @props(['service_request'])
-<x-panel class="flex flex-col text-center ">
-    <div class="self-start text-sm">{{ $service_request->user->name  }}</div>
 
-    <div class="py-8">
-        <h3 class="group-hover:text-blue-800 text-xl font-bold transition-colors duration-300">
-            {{ $service_request->title }}
-        </h3>
-        <p class="text-sm mt-4">{{ $service_request->salary }}</p>
-    </div>
-
-    <div class="flex justify-between items-center mt-auto">
-        <div>
-            @foreach($service_request->tags as $tag)
-                <x-tag :tag="$tag" size="small"/>
-            @endforeach
-
+<div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div class="p-6">
+        <div class="flex items-center justify-between">
+            <div class="text-sm text-gray-500">{{ $service_request->user->name }}</div>
+            <img
+                src="{{ Str::startsWith($service_request->user->profile_pic, 'http') ? $service_request->user->profile_pic : asset('storage/' . $service_request->user->profile_pic) }}"
+                alt="User Profile Pic"
+                class="h-10 w-10 rounded-full"
+            >
         </div>
-
-        <img
-            src="{{ Str::startsWith($service_request->user->profile_pic, 'http') ? $service_request->user->profile_pic : asset('storage/' . $service_request->user->profile_pic) }}"
-            alt="User Profile Pic"
-            class="rounded-xl"
-            width="48"
-        >
+        <h3 class="mt-4 text-xl font-bold text-gray-900">{{ $service_request->title }}</h3>
+        <p class="mt-2 text-sm text-gray-600">{{ $service_request->salary }}</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+            @foreach($service_request->tags as $tag)
+                <x-tag :tag="$tag"/>
+            @endforeach
+        </div>
     </div>
-</x-panel>
+</div>
