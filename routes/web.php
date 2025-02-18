@@ -3,68 +3,51 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ServiceRequestController;
-use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-// Home Route
+// Public Routes
 Route::get('/', [ServiceRequestController::class, 'index']);
-
-// Service Request Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/service-requests/create', [ServiceRequestController::class, 'create'])->name('service-requests.create');
-    Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('service-requests.store');
-});
-
-// Search and Tag Routes
+Route::get('/about', [AuthController::class, 'about']);
 Route::get('/search', SearchController::class)->name('search');
 Route::get('/tags/{tag:name}', TagController::class);
-
-// Authentication Routes
-Route::middleware('guest')->group(function () {
-    Route::get('/register', [RegisteredUserController::class, 'create']);
-    Route::post('/register', [RegisteredUserController::class, 'store']);
-
-    Route::get('/login', [SessionController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [SessionController::class, 'login'])->name('login.store');
-});
-
-Route::delete('/logout', [SessionController::class, 'logout'])->middleware('auth')->name('logout');
-
-// Provider Routes
 Route::get('/provider/{id}', [ProviderController::class, 'show'])->name('provider.show');
-Route::middleware('auth')->group(function () {
-    Route::get('/become-provider', [ProviderController::class, 'create'])->name('providers.create');
-    Route::post('/become-provider', [ProviderController::class, 'store'])->name('providers.store');
+
+// Guest Only Routes
+Route::middleware('guest')->group(function () {
+    // Authentication
+    Route::get('/register', [AuthController::class, 'showRegister']);
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 });
 
-// Profile Routes
+// Authenticated Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [RegisteredUserController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [RegisteredUserController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [RegisteredUserController::class, 'update'])->name('profile.update');
-    Route::post('/profile/upload-picture', [ProfileController::class, 'uploadPicture'])->name('profile.upload-picture');
-    Route::get('/profile/update-password', [ProfileController::class, 'showUpdatePasswordForm'])->name('profile.update-password');
-    Route::patch('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
-    Route::get('/profile/update', [ProfileController::class, 'updateProfile']);
-    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-});
+    // Auth
+    Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::post('/provider/{provider}/rate', [ProviderController::class, 'rate'])->name('provider.rate')->middleware('auth');
+    // Profile Management
+    Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::get('/password', [ProfileController::class, 'editPassword'])->name('password.edit');
+        Route::patch('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    });
 
-// About Route
-Route::get('/about', function () {
-    $userCount = App\Models\User::count();
-    $providerCount = App\Models\Provider::count();
-    $serviceRequestCount = App\Models\ServiceRequest::count();
-    $goodRatingCount = App\Models\Rating::where('rating', '>=', 4)->count();
+    // Provider Management
+    Route::prefix('provider')->name('provider.')->group(function () {
+        Route::get('/become', [ProviderController::class, 'create'])->name('create');
+        Route::post('/become', [ProviderController::class, 'store'])->name('store');
+        Route::post('/{provider}/rate', [ProviderController::class, 'rate'])->name('rate');
+    });
 
-    return view('about', [
-        'userCount' => $userCount,
-        'providerCount' => $providerCount,
-        'serviceRequestCount' => $serviceRequestCount,
-        'goodRatingCount' => $goodRatingCount,
-    ]);
+    // Service Requests
+    Route::prefix('service-requests')->name('service-requests.')->group(function () {
+        Route::get('/create', [ServiceRequestController::class, 'create'])->name('create');
+        Route::post('/', [ServiceRequestController::class, 'store'])->name('store');
+    });
 });

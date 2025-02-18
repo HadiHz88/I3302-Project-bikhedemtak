@@ -7,25 +7,26 @@
                     <p class="text-gray-600">Keep your account secure with a strong password</p>
 
                     @if(session('success'))
-                    <div class="mt-4 bg-blue-100 text-blue-800 p-4 rounded-lg">
-                        {{ session('success') }}
-                    </div>
+                        <div class="mt-4 bg-blue-100 text-blue-800 p-4 rounded-lg">
+                            {{ session('success') }}
+                        </div>
                     @endif
 
                     @if ($errors->any())
-                    <div class="mt-4 bg-red-100 text-red-800 p-4 rounded-lg">
-                        <ul class="list-disc list-inside">
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                        <div class="mt-4 bg-red-100 text-red-800 p-4 rounded-lg">
+                            <ul class="list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
                 </div>
 
-                <form method="POST" action="{{ route('profile.update-password') }}" class="space-y-6">
+                <form method="POST" action="{{ route('profile.password.update') }}" class="space-y-6">
                     @csrf
                     @method('PATCH')
+
                     <div>
                         <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">
                             Current Password
@@ -39,6 +40,7 @@
                             placeholder="Enter your current password"
                         />
                     </div>
+
                     <div>
                         <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">
                             New Password
@@ -52,6 +54,7 @@
                             placeholder="Enter your new password"
                         />
                     </div>
+
                     <div>
                         <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
                             Confirm New Password
@@ -65,6 +68,7 @@
                             placeholder="Confirm your new password"
                         />
                     </div>
+
                     <div>
                         <button
                             type="submit"
@@ -73,8 +77,9 @@
                             Update Password
                         </button>
                     </div>
+
                     <div class="text-center text-sm text-gray-600">
-                        <a href="/profile" class="font-semibold text-blue-600 hover:text-blue-700">
+                        <a href="{{ route('profile.show') }}" class="font-semibold text-blue-600 hover:text-blue-700">
                             Back to Profile
                         </a>
                     </div>

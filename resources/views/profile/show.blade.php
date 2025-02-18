@@ -20,8 +20,8 @@
                     <img src="{{ $user->profile_pic }}" alt="Profile Picture"
                          class="h-24 w-24 rounded-full object-cover border-4 border-white shadow-lg">
                     <div>
-                        <a href="/profile/update" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300 cursor-pointer">
-                            Upload New Picture
+                        <a href="/profile/edit" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300 cursor-pointer">
+                            Edit Your Information
                         </a>
                         <p class="mt-2 text-sm text-gray-500">Recommended size: 200x200 pixels.</p>
                     </div>
@@ -51,8 +51,8 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Password</h2>
                 <div class="flex justify-between items-center border-b border-gray-200 pb-4">
-                    <p class="text-gray-600">Password</p>
-                    <a href="{{ route('profile.update-password') }}"
+                    <p class="text-gray-600">********</p>
+                    <a href="profile/password"
                        class="text-blue-600 hover:text-blue-800 underline">
                         Update Password
                     </a>
