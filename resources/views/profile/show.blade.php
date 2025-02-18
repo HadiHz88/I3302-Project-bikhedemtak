@@ -1,67 +1,62 @@
 <x-layout>
-
-    <div class="bg-white overflow-hidden shadow rounded-lg border">
-        <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                {{ Str::of($user->name)->explode(' ')->first() }} Profile
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                This is Your account information.
+    <!-- Main Container -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden border">
+        <!-- Profile Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8">
+            <h1 class="text-3xl font-bold text-white">
+                {{ Str::of($user->name)->explode(' ')->first() }}'s Profile
+            </h1>
+            <p class="mt-2 text-blue-100">
+                Manage your account information and settings.
             </p>
         </div>
-        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-            <dl class="sm:divide-y sm:divide-gray-200">
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Full name
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $user->name }}
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Email address
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $user->email }}
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Phone number
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $user->phone ?? 'N/A' }}
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Profile picture
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <img src="{{ $user->profile_pic }}" alt="Profile picture"
-                             class="h-8 w-8 rounded-full">
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Password
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ '********' }}
-                    </dd>
-                </div>
-            </dl>
-        </div>
 
-        {{--        Button to edit the profile--}}
-        <div class="bg-gray-50 px-4 py-4 sm:px-6">
-            <div class="text-right sm:px-6">
-                <a href="{{ route('profile.edit') }}"
-                   class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Edit
-                </a>
+        <!-- Profile Content -->
+        <div class="px-6 py-8">
+            <!-- Profile Picture Section -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Profile Picture</h2>
+                <div class="flex items-center space-x-6">
+                    <img src="{{ $user->profile_pic }}" alt="Profile Picture"
+                         class="h-24 w-24 rounded-full object-cover border-4 border-white shadow-lg">
+                    <div>
+                        <a href="/profile/update" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300 cursor-pointer">
+                            Upload New Picture
+                        </a>
+                        <p class="mt-2 text-sm text-gray-500">Recommended size: 200x200 pixels.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Information Section -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Account Information</h2>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                        <p class="text-gray-600">Full Name</p>
+                        <p class="text-gray-900 font-medium">{{ $user->name }}</p>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                        <p class="text-gray-600">Email Address</p>
+                        <p class="text-gray-900 font-medium">{{ $user->email }}</p>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                        <p class="text-gray-600">Phone Number</p>
+                        <p class="text-gray-900 font-medium">{{ $user->phone ?? 'N/A' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Section -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Password</h2>
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                    <p class="text-gray-600">Password</p>
+                    <a href="{{ route('profile.update-password') }}"
+                       class="text-blue-600 hover:text-blue-800 underline">
+                        Update Password
+                    </a>
+                </div>
             </div>
         </div>
     </div>

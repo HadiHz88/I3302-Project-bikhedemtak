@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\RegisteredUserController;
@@ -44,6 +45,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [RegisteredUserController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [RegisteredUserController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [RegisteredUserController::class, 'update'])->name('profile.update');
+    Route::post('/profile/upload-picture', [ProfileController::class, 'uploadPicture'])->name('profile.upload-picture');
+    Route::get('/profile/update-password', [ProfileController::class, 'showUpdatePasswordForm'])->name('profile.update-password');
+    Route::patch('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::get('/profile/update', [ProfileController::class, 'updateProfile']);
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::post('/provider/{provider}/rate', [ProviderController::class, 'rate'])->name('provider.rate')->middleware('auth');
