@@ -25,7 +25,7 @@ class RatingFactory extends Factory
             'provider_id' => Provider::factory(),
             'rated_by' => User::factory(),
             'rating' => fake()->randomElement($ratings),
-            'review' => fake()->sentence(),
+            'review' => fake()->realText(),
         ];
     }
 }

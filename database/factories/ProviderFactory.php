@@ -20,7 +20,7 @@ class ProviderFactory extends Factory
             'name' => fake()->company(),
             'user_id' => User::factory(),
             'phone' => fake()->phoneNumber(),
-            'description'=> fake()->sentence(),
+            'description'=> fake()->realText(),
         ];
     }
 }

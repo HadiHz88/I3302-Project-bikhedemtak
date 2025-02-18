@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('name'); // might be part of a company
             $table->string('logo')->nullable();
             $table->string('phone');
-            $table->string('description');
+            $table->text('description');
             $table->decimal('rating', 2, 1)->default(0);
             $table->timestamps();
         });

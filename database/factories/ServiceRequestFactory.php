@@ -18,7 +18,7 @@ class ServiceRequestFactory extends Factory
         return [
             'user_id' => User::factory(),
             'title' => fake()->jobTitle,
-            'salary' => '$' . fake()->numberBetween(10, 1000),
+            'salary' => '$' . fake()->numberBetween(10, 100),
             'schedule' => fake()->dateTime()->format('Y-m-d H:i:s'),
             'location' => fake()->city(),
         ];
