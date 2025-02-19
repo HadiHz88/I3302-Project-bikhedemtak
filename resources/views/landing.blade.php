@@ -59,7 +59,7 @@
                         <p class="text-gray-600 mb-4 flex-grow">Share your skills and start earning by joining our
                             network.</p>
                         <div>
-                            <a href="/become"
+                            <a href="/become-provider"
                                class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
                                 Join as Provider
                             </a>
@@ -227,8 +227,14 @@
                     <x-request-card :service_request="$service_request"/>
                 @endforeach
             </div>
+
+            <!-- Pagination links go here -->
+            <div class="mt-6">
+                {{ $featuredRequests->links() }}
+            </div>
         </div>
     </section>
+
 
     <!-- Recent Service Requests Section -->
     <section class="bg-gray-50 py-12">
@@ -238,6 +244,11 @@
                 @foreach($service_requests as $service_request)
                     <x-request-card-wide :service_request="$service_request"/>
                 @endforeach
+            </div>
+
+            <!-- Pagination links go here -->
+            <div class="mt-6">
+                {{ $service_requests->links() }}
             </div>
         </div>
     </section>
@@ -250,6 +261,11 @@
                 @foreach ($providers as $provider)
                     <x-provider-card :provider="$provider"/>
                 @endforeach
+            </div>
+
+            <!-- Pagination links go here -->
+            <div class="mt-6">
+                {{ $providers->links() }}
             </div>
         </div>
     </section>

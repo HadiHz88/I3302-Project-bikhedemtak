@@ -23,7 +23,7 @@
                     @endif
                 </div>
 
-                <form action="{{ route('providers.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <form action="/become-provider" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     <div>
                         <label for="logo" class="block text-sm font-medium text-gray-700 mb-1">

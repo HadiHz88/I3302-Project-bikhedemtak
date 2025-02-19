@@ -39,11 +39,10 @@ Route::middleware('auth')->group(function () {
     });
 
     // Provider Management
-    Route::prefix('provider')->name('provider.')->group(function () {
-        Route::get('/become', [ProviderController::class, 'create'])->name('create');
-        Route::post('/become', [ProviderController::class, 'store'])->name('store');
-        Route::post('/{provider}/rate', [ProviderController::class, 'rate'])->name('rate');
-    });
+    Route::get("/provider/{provider}", [ProviderController::class, 'show'])->name('provider.show');
+    Route::get('/become-provider', [ProviderController::class, 'create'])->name('provider.create');
+    Route::post('become-provider', [ProviderController::class, 'store'])->name('provider.store');
+    Route::post('/provider/{provider}/rate', [ProviderController::class, 'rate'])->name('provider.rate');
 
     // Service Requests
     Route::prefix('service-requests')->name('service-requests.')->group(function () {

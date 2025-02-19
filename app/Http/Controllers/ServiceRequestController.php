@@ -22,7 +22,7 @@ class ServiceRequestController extends Controller
         $popularTags = Tag::limit(20)->get();
 
         // Get 8 providers
-        $providers = Provider::limit(8)->get();
+        $providers = Provider::latest()->paginate(8);
 
         // Get latest 6 service requests with user and tags
         $service_requests = ServiceRequest::latest()
